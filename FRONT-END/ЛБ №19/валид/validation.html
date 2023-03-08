@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Форма обратной связи</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&amp;subset=cyrillic" rel="stylesheet">
+<link href="validation.style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="wrap">
+	<form name="feedback" class="feedback" method="POST">
+		<h1>Форма обратной связи</h1>
+		<ul class="form-list">
+			<li>
+				<label for="name">Имя пользователя</label>
+				<div>
+					<input class="form-control" type="text" name="username" maxlength="6" value="">
+				</div>
+				<span class="error"></span>
+			</li>
+
+			<li>
+				<label for="name">Email</label>
+				<div>
+					<input class="form-control" type="text" name="usermail" maxlength="20" value="">
+				</div>
+				<span class="error"></span>
+			</li>
+
+			<li>
+				<label for="name">Тема</label>
+				<div>
+					<input class="form-control" type="text" name="subject" maxlength="10" value="">
+				</div>
+				<span class="error"></span>
+			</li>
+
+			<li>
+				<label for="name">Сообщение</label>
+				<div>
+					<textarea class="form-control" name="textmess"></textarea>
+				</div>
+				<span class="error"></span>
+			</li>
+
+			<li>
+				<label></label>
+				<div>
+					<button id="send_mess" type="submit">Отправить</button>
+				</div>
+			</li>
+		</ul>
+	</form>
+</div>
+
+<script src="validation.function.js"></script>
+</body>
+</html>

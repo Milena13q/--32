@@ -1,0 +1,42 @@
+<html>
+    <head>
+      <meta charset="UTF-8">
+        <link rel="stylesheet" href="mian.css">
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <form>
+            <fieldset>
+              <legend>Contact me</legend>
+              <div class="form-control">
+                <label for="name">Name</label>
+                <input type="name" id="name" placeholder="Enter your name"/>
+              </div>
+      
+              <div class="form-control">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div class="form-control">
+                <label for="select">Select</label>
+                <select id="select">
+                    <option value="HTML">a Language</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="React">React</option>
+                </select>
+              </div>
+
+              <input type="submit" value="Send" class="submit-btn" onclick="send()"/>
+              <button value="Receive" class="btn" onclick="receive()">Получить из localstorage</button>
+
+            </fieldset>
+      </form>
+    </body>
+</html>

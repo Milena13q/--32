@@ -1,0 +1,93 @@
+<script>
+    function isContained(m, e) {
+      var e=e||window.event;
+      var c=/(click)|(mousedown)|(mouseup)/i.test(e.type)? e.target : ( e.relatedTarget || ((e.type=="mouseover")? e.fromElement : e.toElement) );
+      while (c && c!=m)try {c=c.parentNode} catch(e) { c=m; }
+      if (c==m) return true;
+      else return false;
+    }
+    
+    window.addEventListener('load', function() {  // после загрузки страницы
+      var box2 = document.getElementById('box2'),
+      detecttouch = !!('ontouchstart' in window) || !!('ontouchstart' in document.documentElement) || 
+                    !!window.ontouchstart || !!window.Touch || !!window.onmsgesturechange || 
+                    (window.DocumentTouch &&  window.document instanceof window.DocumentTouch),
+      boxleft, //  положение блока по левой стороне
+      startx, // стартовая точка соприкосновения по x
+      dist = 0, // расстояние перемещения точки
+      touchobj = null, // содержимое объекта перемещения 
+      ismousedown = false;  
+        
+      box2.addEventListener('touchstart', function(e) {
+        touchobj = e.changedTouches[0]; // первая точка соприкосновения для этого события
+        boxleft = parseInt(box2.style.left);  // положение блока по левой стороне
+        startx = parseInt(touchobj.clientX);  // получение координаты по x точки соприкосновения
+        e.preventDefault(); // отключаем реакцию элементов по умолчанию в браузере
+       }, false);
+        
+      box2.addEventListener('touchmove', function(e) {
+        touchobj = e.changedTouches[0];    // первая точка соприкосновения для этого события
+        var dist = parseInt(touchobj.clientX) - startx; // подсчет расстояния перемещения
+        // перемещение блока от старновой позиции + дистанция 
+        // выставляем лимит, чтобы блок не выходил за пределы от 0 до 380
+        box2.style.left = ( (boxleft + dist > 380)? 380 : (boxleft + dist < 0)? 0 : boxleft + dist ) + 'px';
+        e.preventDefault(); // отключаем реакцию элементов по умолчанию в браузере
+       }, false);
+        
+      if (!detecttouch) { // Устройство без сенсора
+        document.body.addEventListener('mousedown', function(e) {
+          if ( isContained(box2, e) ) {
+            touchobj = e; // первая точка соприкосновения для этого события
+            boxleft = parseInt(box2.style.left); // положение блока по левой стороне
+            startx = parseInt(touchobj.clientX); // получение координаты по x точки соприкосновения
+            ismousedown = true;
+            e.preventDefault();  // отключаем реакцию элементов по умолчанию в браузере
+           }
+         }, false);
+            
+        document.body.addEventListener('mousemove', function(e) {
+          if (ismousedown) {
+            touchobj = e;   // первая точка соприкосновения для этого события
+            var dist = parseInt(touchobj.clientX) - startx; // подсчет расстояния перемещения
+            // перемещение блока от старновой позиции + дистанция 
+            // выставляем лимит, чтобы блок не выходил за пределы от 0 до 380
+            box2.style.left = ( (boxleft + dist > 380)? 380 : (boxleft + dist < 0)? 0 : boxleft + dist ) + 'px';
+            e.preventDefault();  // отключаем реакцию элементов по умолчанию в браузере
+           }
+          }, false);
+            
+        document.body.addEventListener('mouseup', function(e) {
+          if (ismousedown) {
+            touchobj = e;   // первая точка соприкосновения
+            boxleft = parseInt(box2.style.left); // положение блока по левой стороне
+            startx = parseInt(touchobj.clientX); // получение координаты по x точки соприкосновения
+            ismousedown = false;
+            e.preventDefault();  // отключаем реакцию элементов по умолчанию в браузере
+           }
+          }, false);
+       }
+     }, false);
+    </script>
+    
+    <style>
+    #box2 { width: 100px; height: 50px; font-size:1.4em;
+       border: 1px solid orange; background: lightyellow;
+      -webkit-box-sizing: border-box; -moz-box-sizing: border-box;
+       box-sizing: border-box;
+       position: absolute; padding-top: 10px;
+      -moz-box-shadow: 0 0 5px gray; box-shadow: 0 0 5px gray;
+      text-align: center; line-height: 1; cursor:pointer }
+    
+    .track { width: 480px; height: 55px;
+      position: relative; overflow: hidden; }
+    
+    .track:after { content: '';
+      display: block; width: 100%; height: 1px;
+      background: black; position: absolute;
+      top: 49%; z-index: -1; }
+    </style>
+    <body>
+    <b>Перемещение объектов</b>    
+    <div class="track" id="track">
+    <div style="left: 0px; top: 0px;" id="box2" class="box">Поехали!</div>
+    </div>
